@@ -1,1 +1,4 @@
-#second by Ivan
+POS-Seed
+========
+
+Seed project for POS terminal
