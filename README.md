@@ -3,7 +3,7 @@ POS-Seed
 
 Seed project for POS terminal
 
-Group Members£º
+Group Members:
 Ivan Lu
 Yang Ningjia
 Hu Yue
