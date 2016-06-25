@@ -16,6 +16,13 @@ public class Report{
         return itemGroupies;
     }
 
+    public boolean hasPromotion(){
+        boolean result = false;
+        for (ItemGroup itemGroup : itemGroupies)
+            result |= itemGroup.groupPromotion();
+        return result;
+    }
+
     public double getTotal(){
         double result = 0.00;
         for (ItemGroup itemGroup : itemGroupies)
