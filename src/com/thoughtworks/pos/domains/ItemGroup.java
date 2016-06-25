@@ -28,10 +28,20 @@ public class ItemGroup {
         return items.get(0).getPrice();
     }
 
+    public boolean groupPromotion() {
+        if (items.size() >= 3 && items.get(0).getPromotion()) {
+            return true;
+        }
+        return false;
+    }
+
     public double subTotal() {
         double result = 0.00;
         for (Item item : items)
             result += item.getPrice() * item.getDiscount();
+        if (groupPromotion()) {
+            result -= items.get(0).getPrice();
+        }
         return result;
     }
 
@@ -39,6 +49,9 @@ public class ItemGroup {
         double result = 0.00;
         for (Item item : items)
             result += item.getPrice() * (1 - item.getDiscount());
+        if (groupPromotion()) {
+            result += items.get(0).getPrice();
+        }
         return result;
     }
 }
