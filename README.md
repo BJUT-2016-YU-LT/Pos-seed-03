@@ -1,7 +1,5 @@
-POS-Seed
+POS terminal
 ========
-
-Seed project for POS terminal
 
 Group Members:
 
@@ -12,4 +10,7 @@ Yang Ningjia
 Hu Yue
 
 Hou Kaixin
+
+========
+
 
