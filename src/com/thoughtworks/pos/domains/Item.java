@@ -9,7 +9,7 @@ public class Item {
     private String unit;
     private double price;
     private double discount;
-
+    private boolean promotion;
 
     public Item() {
     }
@@ -27,9 +27,20 @@ public class Item {
         this.setDiscount(discount);
     }
 
+    //Init for Add Promotion Property
+    public Item(String barcode, String name, String unit, double price, double discount,boolean promotion) {
+        this(barcode, name, unit, price);
+        this.setDiscount(discount);
+        this.setPromotion(promotion);
+        if(promotion==true){
+            this.setDiscount(1.0);
+        }
+    }
+
     public String getName() {
         return name;
     }
+
     public String getUnit() {
         return unit;
     }
@@ -38,12 +49,17 @@ public class Item {
         return price;
     }
 
-    public String getBarcode() { return barcode; }
+    public String getBarcode() {
+        return barcode;
+    }
 
     public double getDiscount() {
         if (discount == 0.00)
             return 1.00;
         return discount;
+    }
+    public boolean getPromotion() {
+        return promotion;
     }
 
     public void setBarcode(String barcode) {
@@ -64,5 +80,9 @@ public class Item {
 
     public void setDiscount(double discount) {
         this.discount = discount;
+    }
+
+    public void setPromotion(boolean promotion) {
+        this.promotion = promotion;
     }
 }
