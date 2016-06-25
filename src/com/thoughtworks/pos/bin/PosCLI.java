@@ -13,8 +13,9 @@ import java.io.IOException;
  */
 public class PosCLI {
     public static void main (String args[]) throws IOException, EmptyShoppingCartException {
-        InputParser inputParser = new InputParser(new File(args[0]));
-        ShoppingChart shoppingChart = inputParser.parser();
+        //InputParser inputParser = new InputParser(new File(args[0]));
+        InputParser inputParser = new InputParser(new File(args[0]), new File(args[1]));
+        ShoppingChart shoppingChart = inputParser.Parser();
 
         Pos pos = new Pos();
         String shoppingList = pos.getShoppingList(shoppingChart);

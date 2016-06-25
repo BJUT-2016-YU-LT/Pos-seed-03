@@ -19,6 +19,7 @@ import java.util.*;
 
 public class InputParser{
     private File itemsFile;
+    private File indexFile;
     private final ObjectMapper objectMapper;
 
     /*
@@ -29,9 +30,22 @@ public class InputParser{
         objectMapper = new ObjectMapper(new JsonFactory());
         objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
     }
+
+    public InputParser(File indexFile, File itemsFile) {
+        this.indexFile = indexFile;
+        this.itemsFile = itemsFile;
+        objectMapper = new ObjectMapper(new JsonFactory());
+        objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+    }
+
     public ShoppingChart parser() throws IOException {
         return BuildShoppingChart(getItems());
     }
+
+    public ShoppingChart Parser() throws IOException {
+        return BuildShoppingChart(getBoughtItemBarCodes(), getItemIndexes());
+    }
+
     private ShoppingChart BuildShoppingChart(ArrayList<Item> items) {
         ShoppingChart shoppingChart = new ShoppingChart();
         for (Item item : items) {
@@ -40,9 +54,31 @@ public class InputParser{
         return shoppingChart;
     }
 
+    /*Add for Requirement3*/
+    private ShoppingChart BuildShoppingChart(String[] barCodes, HashMap<String, Item> itemIndexes) {
+        ShoppingChart shoppingChart = new ShoppingChart();
+        for (String barcode : barCodes) {
+            Item mappedItem = itemIndexes.get(barcode);
+            Item item = new Item(barcode, mappedItem.getName(), mappedItem.getUnit(), mappedItem.getPrice(), mappedItem.getDiscount(),mappedItem.getPromotion());
+            shoppingChart.add(item);
+        }
+        return shoppingChart;
+    }
+
     private ArrayList<Item> getItems() throws IOException {
         String itemsIndexStr = FileUtils.readFileToString(itemsFile);
         TypeReference<ArrayList<Item>> typeRef = new TypeReference<ArrayList<Item>>() {};
+        return objectMapper.readValue(itemsIndexStr, typeRef);
+    }
+
+    private String[] getBoughtItemBarCodes() throws IOException {
+        String itemsStr = FileUtils.readFileToString(itemsFile);
+        return objectMapper.readValue(itemsStr, String[].class);
+    }
+
+    private HashMap<String, Item> getItemIndexes() throws IOException {
+        String itemsIndexStr = FileUtils.readFileToString(indexFile);
+        TypeReference<HashMap<String,Item>> typeRef = new TypeReference<HashMap<String,Item>>() {};
         return objectMapper.readValue(itemsIndexStr, typeRef);
     }
 }

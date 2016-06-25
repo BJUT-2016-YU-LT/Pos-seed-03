@@ -23,6 +23,15 @@ public class Pos {
                             .append("小计：").append(String.format("%.2f", itemGroup.subTotal())).append("(元)").append("\n")
                             .toString());
         }
+        if (report.hasPromotion()) {
+            shoppingListBuilder.append("----------------------\n")
+            .append("挥泪赠送商品：\n");
+            for (ItemGroup itemGroup : report.getItemGroupies()){
+                if (itemGroup.groupPromotion()){
+                    shoppingListBuilder.append("名称：").append(itemGroup.groupName()).append("，数量：1") .append(itemGroup.groupUnit()).append("\n");
+                }
+            }
+        }
         StringBuilder subStringBuilder = shoppingListBuilder
                 .append("----------------------\n")
                 .append("总计：").append(String.format("%.2f", report.getTotal())).append("(元)").append("\n");
