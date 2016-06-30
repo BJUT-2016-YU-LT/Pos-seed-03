@@ -7,9 +7,15 @@ import java.util.List;
  */
 public class Report{
     private List<ItemGroup> itemGroupies;
+    private User user;
 
     public Report(List<ItemGroup> itemGroupies){
         this.itemGroupies = itemGroupies;
+        this.user = null;
+    }
+    public Report(List<ItemGroup> itemGroupies,User user){
+        this.itemGroupies = itemGroupies;
+        this.user = user;
     }
 
     public List<ItemGroup> getItemGroupies() {
@@ -23,10 +29,16 @@ public class Report{
         return result;
     }
 
+    public User getUser(){
+        return user;
+    }
+
     public double getTotal(){
         double result = 0.00;
-        for (ItemGroup itemGroup : itemGroupies)
+        for (ItemGroup itemGroup : itemGroupies) {
+            itemGroup.setVip(user!=null?user.isisVip():false);
             result += itemGroup.subTotal();
+        }
         return result;
     }
 
