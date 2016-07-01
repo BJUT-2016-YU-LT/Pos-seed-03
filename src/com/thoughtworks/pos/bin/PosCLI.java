@@ -13,12 +13,35 @@ import java.io.IOException;
  */
 public class PosCLI {
     public static void main (String args[]) throws IOException, EmptyShoppingCartException {
-        //InputParser inputParser = new InputParser(new File(args[0]));
-        InputParser inputParser = new InputParser(new File(args[0]), new File(args[1]));
-        ShoppingChart shoppingChart = inputParser.Parser();
+        switch(args.length)
+        {
+            case 1: {
+                InputParser inputParser = new InputParser(new File(args[0]));
+                ShoppingChart shoppingChart = inputParser.Parser();
+                Pos pos = new Pos();
+                String shoppingList = pos.getShoppingList(shoppingChart);
+                System.out.print(shoppingList);
+                break;
+            }
+            case 2: {
+                InputParser inputParser = new InputParser(new File(args[0]), new File(args[1]));
+                ShoppingChart shoppingChart = inputParser.Parser();
 
-        Pos pos = new Pos();
-        String shoppingList = pos.getShoppingList(shoppingChart);
-        System.out.print(shoppingList);
+                Pos pos = new Pos();
+                String shoppingList = pos.getShoppingList(shoppingChart);
+                System.out.print(shoppingList);
+                break;
+            }
+            case 3:{
+                InputParser inputParser = new InputParser(new File(args[0]), new File(args[1]),new File("users.json"));
+                ShoppingChart shoppingChart = inputParser.Parser();
+
+                Pos pos = new Pos();
+                pos.setShowTime(true);
+                String shoppingList = pos.getShoppingList(shoppingChart);
+                System.out.print(shoppingList);
+                break;
+            }
+        }
     }
 }

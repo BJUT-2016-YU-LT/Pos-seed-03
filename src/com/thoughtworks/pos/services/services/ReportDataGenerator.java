@@ -28,7 +28,7 @@ public class ReportDataGenerator {
         }
 
         List<ItemGroup> itemGroups = GetItemGroups(items);
-        return new Report(itemGroups);
+        return new Report(itemGroups,shoppingChart.getUser());
     }
 
     private List<ItemGroup> GetItemGroups(ArrayList<Item> items) {
