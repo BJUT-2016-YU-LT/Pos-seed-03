@@ -396,4 +396,33 @@ public class PosTest {
                         + "**********************\n";
         assertThat(actualShoppingList, is(expectedShoppingList));
     }
+
+    @Test
+    public void testUserDataError() throws EmptyShoppingCartException{
+        // given
+        User user = new User("USERTEST","Test",true);
+        user.setPoint(-3);
+        ShoppingChart shoppingChart = new ShoppingChart(user);
+        shoppingChart.add(new Item("ITEM000000", "雪碧", "瓶", 2.00, 0.8,false,0.75));
+        shoppingChart.add(new Item("ITEM000000", "雪碧", "瓶", 2.00, 0.8,false,0.75));
+        shoppingChart.add(new Item("ITEM000000", "雪碧", "瓶", 2.00, 0.8,false,0.75));
+        shoppingChart.add(new Item("ITEM000000", "雪碧", "瓶", 2.00, 0.8,false,0.75));
+        shoppingChart.add(new Item("ITEM000000", "雪碧", "瓶", 2.00, 0.8,false,0.75));
+
+        // when
+        Pos pos = new Pos();
+        String actualShoppingList = pos.getShoppingList(shoppingChart);
+
+        // then
+        String expectedShoppingList =
+                "***商店购物清单***\n"
+                        + "会员编号： USERTEST\t会员积分：1分\n"
+                        + "----------------------\n"
+                        + "名称：雪碧，数量：5瓶，单价：2.00(元)，小计：6.00(元)\n"
+                        + "----------------------\n"
+                        + "总计：6.00(元)\n"
+                        + "节省：4.00(元)\n"
+                        + "**********************\n";
+        assertThat(actualShoppingList, is(expectedShoppingList));
+    }
 }

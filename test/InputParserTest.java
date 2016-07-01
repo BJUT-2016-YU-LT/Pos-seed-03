@@ -326,16 +326,77 @@ public class InputParserTest {
         InputParser inputParser = new InputParser(indexFile, itemsFile,usersFile);
         ArrayList<Item> items = inputParser.Parser().getItems();
         User user = inputParser.Parser().getUser();
-        assertThat(items.size(), is(3));
-        Item item = items.get(1);
-        assertThat(item.getName(), is("雪碧"));
-        assertThat(item.getBarcode(), is("ITEM000001"));
-        assertThat(item.getUnit(), is("瓶"));
-        assertThat(item.getPrice(), is(3.00));
-        assertThat(item.getDiscount(), is(0.8));
         assertThat(user.getId(),is("USER0004"));
         assertThat(user.getName(),is("USER0004"));
         assertThat(user.isisVip(),is(false));
+        assertThat(user.getPoint(),is(0));
+    }
+
+    @Test
+    public void testUserPointLessThanZero() throws Exception{
+        String sampleIndex = new StringBuilder()
+                .append("{\n" +
+                        "    \"ITEM000000\": {\n" +
+                        "        \"name\": \"可口可乐\",\n" +
+                        "        \"unit\": \"瓶\",\n" +
+                        "        \"price\": 3.00,\n" +
+                        "        \"vipDiscount\": 0.9\n" +
+                        "    },\n" +
+                        "    \"ITEM000001\": {\n" +
+                        "        \"name\": \"雪碧\",\n" +
+                        "        \"unit\": \"瓶\",\n" +
+                        "        \"price\": 3.00,\n" +
+                        "        \"discount\": 0.8,\n" +
+                        "        \"vipDiscount\": 0.95\n" +
+                        "    },\n" +
+                        "    \"ITEM000002\": {\n" +
+                        "        \"name\": \"电池\",\n" +
+                        "        \"unit\": \"个\",\n" +
+                        "        \"price\": 5.00\n" +
+                        "    }\n" +
+                        "}")
+                .toString();
+        WriteToFile(indexFile, sampleIndex);
+
+        String sampleItems = new StringBuilder()
+                .append("{\n")
+                .append("\"user\": \"USER0001\",")
+                .append("\"items\":[\n" +
+                        "\"ITEM000000\",\n" +
+                        "\"ITEM000001\",\n" +
+                        "\"ITEM000002\"\n" +
+                        "]")
+                .append("}")
+                .toString();
+        WriteToFile(itemsFile, sampleItems);
+
+        String sampleUsers = new StringBuilder()
+                .append("{\n" +
+                        "  \"USER0002\": {\n" +
+                        "    \"name\": \"USER 002\",\n" +
+                        "    \"isVip\": false,\n" +
+                        "    \"point\": 0\n" +
+                        "  },\n" +
+                        "  \"USER0001\": {\n" +
+                        "    \"name\": \"USER 001\",\n" +
+                        "    \"isVip\": true,\n" +
+                        "    \"point\": -20\n" +
+                        "  },\n" +
+                        "  \"USER0003\": {\n" +
+                        "    \"name\": \"USER 003\",\n" +
+                        "    \"isVip\": true,\n" +
+                        "    \"point\": 0\n" +
+                        "  }\n" +
+                        "}")
+                .toString();
+        WriteToFile(usersFile, sampleUsers);
+
+        InputParser inputParser = new InputParser(indexFile, itemsFile,usersFile);
+        ArrayList<Item> items = inputParser.Parser().getItems();
+        User user = inputParser.Parser().getUser();
+        assertThat(user.getId(),is("USER0001"));
+        assertThat(user.getName(),is("USER 001"));
+        assertThat(user.isisVip(),is(true));
         assertThat(user.getPoint(),is(0));
     }
 
