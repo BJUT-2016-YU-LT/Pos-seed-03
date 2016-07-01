@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class ItemGroup {
     private List<Item> items;
-
+    private boolean Vip;
     public ItemGroup(List<Item> items) {
         this.items = items;
     }
@@ -35,10 +35,15 @@ public class ItemGroup {
         return false;
     }
 
+    public void setVip(boolean vip){
+        this.Vip = vip;
+    }
+
     public double subTotal() {
         double result = 0.00;
-        for (Item item : items)
-            result += item.getPrice() * item.getDiscount();
+        for (Item item : items) {
+            result += (item.getPrice() * item.getDiscount() * (Vip==true ? item.getVipDiscount() : 1.0));
+        }
         if (groupPromotion()) {
             result -= items.get(0).getPrice();
         }
@@ -48,7 +53,7 @@ public class ItemGroup {
     public double saving() {
         double result = 0.00;
         for (Item item : items)
-            result += item.getPrice() * (1 - item.getDiscount());
+            result += (item.getPrice() * (1 - item.getDiscount() * (Vip?item.getVipDiscount():1.0)));
         if (groupPromotion()) {
             result += items.get(0).getPrice();
         }
